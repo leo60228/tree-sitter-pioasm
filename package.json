@@ -1,0 +1,17 @@
+{
+  "name": "tree-sitter-pioasm",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "leo60228 <leo@60228.dev>",
+  "license": "ISC",
+  "dependencies": {
+    "nan": "^2.15.0"
+  },
+  "devDependencies": {
+    "tree-sitter-cli": "^0.20.0"
+  }
+}
