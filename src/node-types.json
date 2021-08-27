@@ -1,6 +1,11 @@
 [
   {
-    "type": "define_directive",
+    "type": "block_comment",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "code_block",
     "named": true,
     "fields": {},
     "children": {
@@ -8,11 +13,26 @@
       "required": true,
       "types": [
         {
-          "type": "expression",
+          "type": "code_block_body",
           "named": true
         },
         {
-          "type": "symbol_def",
+          "type": "code_block_language",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "condition",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "not",
           "named": true
         }
       ]
@@ -28,6 +48,88 @@
       "types": [
         {
           "type": "expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "directive",
+    "named": true,
+    "fields": {
+      "directive": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": ".define",
+            "named": false
+          },
+          {
+            "type": ".lang_opt",
+            "named": false
+          },
+          {
+            "type": ".origin",
+            "named": false
+          },
+          {
+            "type": ".program",
+            "named": false
+          },
+          {
+            "type": ".side_set",
+            "named": false
+          },
+          {
+            "type": ".word",
+            "named": false
+          },
+          {
+            "type": ".wrap",
+            "named": false
+          },
+          {
+            "type": ".wrap_target",
+            "named": false
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "non_ws",
+          "named": true
+        },
+        {
+          "type": "optional",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "symbol_def",
+          "named": true
+        },
+        {
+          "type": "value",
           "named": true
         }
       ]
@@ -60,11 +162,62 @@
   {
     "type": "instruction",
     "named": true,
-    "fields": {},
+    "fields": {
+      "opcode": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "in",
+            "named": false
+          },
+          {
+            "type": "irq",
+            "named": false
+          },
+          {
+            "type": "jmp",
+            "named": false
+          },
+          {
+            "type": "mov",
+            "named": false
+          },
+          {
+            "type": "nop",
+            "named": false
+          },
+          {
+            "type": "out",
+            "named": false
+          },
+          {
+            "type": "pull",
+            "named": false
+          },
+          {
+            "type": "push",
+            "named": false
+          },
+          {
+            "type": "set",
+            "named": false
+          },
+          {
+            "type": "wait",
+            "named": false
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "condition",
+          "named": true
+        },
         {
           "type": "delay",
           "named": true
@@ -91,10 +244,6 @@
         },
         {
           "type": "mov_target",
-          "named": true
-        },
-        {
-          "type": "not",
           "named": true
         },
         {
@@ -141,29 +290,6 @@
     }
   },
   {
-    "type": "lang_opt_directive",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "non_ws",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "mov_op",
     "named": true,
     "fields": {},
@@ -189,19 +315,9 @@
     "fields": {}
   },
   {
-    "type": "origin_directive",
+    "type": "optional",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "value",
-          "named": true
-        }
-      ]
-    }
+    "fields": {}
   },
   {
     "type": "out_target",
@@ -209,39 +325,9 @@
     "fields": {}
   },
   {
-    "type": "program_directive",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "identifier",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "set_target",
     "named": true,
     "fields": {}
-  },
-  {
-    "type": "side_set_directive",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "value",
-          "named": true
-        }
-      ]
-    }
   },
   {
     "type": "sideset",
@@ -271,7 +357,7 @@
           "named": true
         },
         {
-          "type": "define_directive",
+          "type": "directive",
           "named": true
         },
         {
@@ -283,35 +369,7 @@
           "named": true
         },
         {
-          "type": "lang_opt_directive",
-          "named": true
-        },
-        {
           "type": "line_comment",
-          "named": true
-        },
-        {
-          "type": "origin_directive",
-          "named": true
-        },
-        {
-          "type": "program_directive",
-          "named": true
-        },
-        {
-          "type": "side_set_directive",
-          "named": true
-        },
-        {
-          "type": "word_directive",
-          "named": true
-        },
-        {
-          "type": "wrap_directive",
-          "named": true
-        },
-        {
-          "type": "wrap_target_directive",
           "named": true
         }
       ]
@@ -371,26 +429,19 @@
     }
   },
   {
-    "type": "word_directive",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "value",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "\n",
     "named": false
   },
   {
     "type": "!=",
+    "named": false
+  },
+  {
+    "type": "%",
+    "named": false
+  },
+  {
+    "type": "%}",
     "named": false
   },
   {
@@ -450,7 +501,19 @@
     "named": false
   },
   {
+    "type": ".wrap",
+    "named": false
+  },
+  {
+    "type": ".wrap_target",
+    "named": false
+  },
+  {
     "type": "/",
+    "named": false
+  },
+  {
+    "type": "/*",
     "named": false
   },
   {
@@ -482,15 +545,15 @@
     "named": false
   },
   {
-    "type": "block_comment",
-    "named": true
-  },
-  {
     "type": "clear",
     "named": false
   },
   {
-    "type": "code_block",
+    "type": "code_block_body",
+    "named": true
+  },
+  {
+    "type": "code_block_language",
     "named": true
   },
   {
@@ -570,6 +633,10 @@
     "named": false
   },
   {
+    "type": "optional",
+    "named": false
+  },
+  {
     "type": "osr",
     "named": false
   },
@@ -622,6 +689,14 @@
     "named": false
   },
   {
+    "type": "side_set",
+    "named": false
+  },
+  {
+    "type": "sideset",
+    "named": false
+  },
+  {
     "type": "status",
     "named": false
   },
@@ -634,19 +709,15 @@
     "named": false
   },
   {
-    "type": "wrap_directive",
-    "named": true
-  },
-  {
-    "type": "wrap_target_directive",
-    "named": true
-  },
-  {
     "type": "x",
     "named": false
   },
   {
     "type": "y",
+    "named": false
+  },
+  {
+    "type": "{",
     "named": false
   },
   {

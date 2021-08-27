@@ -1,6 +1,8 @@
 module.exports = grammar({
   name: 'pioasm',
 
+  externals: $ => [$.code_block_body],
+
   rules: {
     source_file: $ => $._lines,
 
@@ -10,7 +12,7 @@ module.exports = grammar({
       $.line_comment,
       seq(
         choice(
-          $._directive,
+          $.directive,
           $.instruction,
           seq($.label_decl, $.instruction),
           $.label_decl,
@@ -20,24 +22,16 @@ module.exports = grammar({
       )
     ),
 
-    _directive: $ => choice(
-      $.program_directive,
-      $.define_directive,
-      $.origin_directive,
-      $.side_set_directive,
-      $.wrap_target_directive,
-      $.wrap_directive,
-      $.word_directive,
-      $.lang_opt_directive,
+    directive: $ => choice(
+      seq(field('directive', '.program'), $.identifier),
+      seq(field('directive', '.define'), $.symbol_def, $.expression),
+      seq(field('directive', '.origin'), $.value),
+      seq(field('directive', '.side_set'), $.value, optional($.optional), optional('pindirs')),
+      field('directive', '.wrap_target'),
+      field('directive', '.wrap'),
+      seq(field('directive', '.word'), $.value),
+      seq(field('directive', '.lang_opt'), $.non_ws, $.non_ws, '=', choice($.integer, $.string, $.non_ws)),
     ),
-    program_directive: $ => seq('.program', $.identifier),
-    define_directive: $ => seq('.define', $.symbol_def, $.expression),
-    origin_directive: $ => seq('.origin', $.value),
-    side_set_directive: $ => seq('.side_set', $.value, optional('opt'), optional('pindirs')),
-    wrap_target_directive: $ => '.wrap_target',
-    wrap_directive: $ => '.wrap',
-    word_directive: $ => seq('.word', $.value),
-    lang_opt_directive: $ => seq('.lang_opt', $.non_ws, $.non_ws, '=', choice($.integer, $.string, $.non_ws)),
 
     instruction: $ => choice(
       seq($._base_instruction, $.sideset, $.delay),
@@ -48,22 +42,22 @@ module.exports = grammar({
     ),
 
     _base_instruction: $ => choice(
-      'nop',
-      seq('jmp', optional($._condition), optional(','), $.expression),
-      seq('wait', optional($.value), $.wait_source),
-      seq('wait', $.value, ',', $.value),
-      seq('in', $.in_source, optional(','), $.value),
-      seq('out', $.out_target, optional(','), $.value),
-      seq('push', optional('iffull'), optional($._blocking)),
-      seq('pull', optional('ifempty'), optional($._blocking)),
-      seq('mov', $.mov_target, optional(','), optional($.mov_op), $.mov_source),
-      seq('irq', optional($.irq_modifiers), $.value, optional('rel')),
-      seq('set', $.set_target, optional(','), $.value)
+      field('opcode', 'nop'),
+      seq(field('opcode', 'jmp'), optional($.condition), optional(','), $.expression),
+      seq(field('opcode', 'wait'), optional($.value), $.wait_source),
+      seq(field('opcode', 'wait'), $.value, ',', $.value),
+      seq(field('opcode', 'in'), $.in_source, optional(','), $.value),
+      seq(field('opcode', 'out'), $.out_target, optional(','), $.value),
+      seq(field('opcode', 'push'), optional('iffull'), optional($._blocking)),
+      seq(field('opcode', 'pull'), optional('ifempty'), optional($._blocking)),
+      seq(field('opcode', 'mov'), $.mov_target, optional(','), optional($.mov_op), $.mov_source),
+      seq(field('opcode', 'irq'), optional($.irq_modifiers), $.value, optional('rel')),
+      seq(field('opcode', 'set'), $.set_target, optional(','), $.value)
     ),
 
     _blocking: $ => choice('block', 'noblock'),
 
-    _condition: $ => choice(
+    condition: $ => choice(
       seq($.not, 'x'),
       seq('x', '--'),
       seq($.not, 'y'),
@@ -139,7 +133,7 @@ module.exports = grammar({
       'pindirs'
     ),
 
-    sideset: $ => seq('side', $.value),
+    sideset: $ => seq(choice('side', 'sideset', 'side_set'), $.value),
     delay: $ => seq('[', $.expression, ']'),
 
     symbol_def: $ => choice(
@@ -168,7 +162,14 @@ module.exports = grammar({
     ),
 
     label_decl: $ => seq($.symbol_def, ':'),
-    code_block: $ => /% *[^%\n]+ *{(.|\n)*%}/,
+    code_block: $ => seq(
+      '%',
+      $.code_block_language,
+      '{',
+      $.code_block_body,
+      '%}'
+    ),
+    code_block_language: $ => /[a-z-]+/,
 
     identifier: $ => /[a-zA-Z_][a-zA-Z0-9_]*/,
     integer: $ => /0x[0-9a-fA-F]+|0b[01]+|[0-9]+|ONE|ZERO/,
@@ -177,7 +178,13 @@ module.exports = grammar({
 
     not: $ => /[~!]/,
 
-    block_comment: $ => /\/\/*(.|\n)*\*\//,
+    optional: $ => choice('opt', 'optional'),
+
+    block_comment: $ => seq(
+      '/*',
+      /[^*]*\*+([^/*][^*]*\*+)*/,
+      '/'
+    ),
     line_comment: $ => /(?:\/\/|;).*/
   },
 
