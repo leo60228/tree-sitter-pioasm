@@ -23,14 +23,24 @@ module.exports = grammar({
     ),
 
     directive: $ => choice(
-      seq(field('directive', '.program'), $.identifier),
       seq(field('directive', '.define'), $.symbol_def, $.expression),
+      seq(field('directive', '.clock_div'), $.float),
+      seq(field('directive', '.fifo'), choice('txrx', 'rx', 'txput', 'txget', 'putget')),
+      seq(field('directive', '.mov_status'), choice(
+        seq('rxfifo', '<', $.integer),
+        seq('txfifo', '<', $.integer),
+        seq('irq', choice('next','prev'), 'set', $.integer)
+      )),
+      seq(field('directive', choice('.in', '.out')), $.integer, optional(choice('left', 'right')), optional(seq('auto', $.integer))),
+      seq(field('directive', '.program'), $.identifier),
       seq(field('directive', '.origin'), $.value),
+      seq(field('directive', '.pio_version'), choice('0', 'RP2040', '1', 'RP2350')),
+      seq(field('directive', '.set'), $.integer),
       seq(field('directive', '.side_set'), $.value, optional($.optional), optional('pindirs')),
       field('directive', '.wrap_target'),
       field('directive', '.wrap'),
-      seq(field('directive', '.word'), $.value),
       seq(field('directive', '.lang_opt'), $.non_ws, $.non_ws, '=', choice($.integer, $.string, $.non_ws)),
+      seq(field('directive', '.word'), $.value),
     ),
 
     instruction: $ => choice(
@@ -173,6 +183,7 @@ module.exports = grammar({
 
     identifier: $ => /[a-zA-Z_][a-zA-Z0-9_]*/,
     integer: $ => /0x[0-9a-fA-F]+|0b[01]+|[0-9]+|ONE|ZERO/,
+    float: $ => /[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)/,
     non_ws: $ => /[^ \t\n"=]+/,
     string: $ => /"[^\n]*"/,
 

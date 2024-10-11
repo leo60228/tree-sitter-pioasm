@@ -62,7 +62,19 @@
         "required": true,
         "types": [
           {
+            "type": ".clock_div",
+            "named": false
+          },
+          {
             "type": ".define",
+            "named": false
+          },
+          {
+            "type": ".fifo",
+            "named": false
+          },
+          {
+            "type": ".in",
             "named": false
           },
           {
@@ -70,11 +82,27 @@
             "named": false
           },
           {
+            "type": ".mov_status",
+            "named": false
+          },
+          {
             "type": ".origin",
             "named": false
           },
           {
+            "type": ".out",
+            "named": false
+          },
+          {
+            "type": ".pio_version",
+            "named": false
+          },
+          {
             "type": ".program",
+            "named": false
+          },
+          {
+            "type": ".set",
             "named": false
           },
           {
@@ -102,6 +130,10 @@
       "types": [
         {
           "type": "expression",
+          "named": true
+        },
+        {
+          "type": "float",
           "named": true
         },
         {
@@ -478,7 +510,19 @@
     "named": false
   },
   {
+    "type": ".clock_div",
+    "named": false
+  },
+  {
     "type": ".define",
+    "named": false
+  },
+  {
+    "type": ".fifo",
+    "named": false
+  },
+  {
+    "type": ".in",
     "named": false
   },
   {
@@ -486,11 +530,27 @@
     "named": false
   },
   {
+    "type": ".mov_status",
+    "named": false
+  },
+  {
     "type": ".origin",
     "named": false
   },
   {
+    "type": ".out",
+    "named": false
+  },
+  {
+    "type": ".pio_version",
+    "named": false
+  },
+  {
     "type": ".program",
+    "named": false
+  },
+  {
+    "type": ".set",
     "named": false
   },
   {
@@ -518,6 +578,14 @@
     "named": false
   },
   {
+    "type": "0",
+    "named": false
+  },
+  {
+    "type": "1",
+    "named": false
+  },
+  {
     "type": ":",
     "named": false
   },
@@ -526,7 +594,19 @@
     "named": false
   },
   {
+    "type": "<",
+    "named": false
+  },
+  {
     "type": "=",
+    "named": false
+  },
+  {
+    "type": "RP2040",
+    "named": false
+  },
+  {
+    "type": "RP2350",
     "named": false
   },
   {
@@ -539,6 +619,10 @@
   },
   {
     "type": "^",
+    "named": false
+  },
+  {
+    "type": "auto",
     "named": false
   },
   {
@@ -560,6 +644,10 @@
   {
     "type": "exec",
     "named": false
+  },
+  {
+    "type": "float",
+    "named": true
   },
   {
     "type": "gpio",
@@ -598,11 +686,19 @@
     "named": false
   },
   {
+    "type": "left",
+    "named": false
+  },
+  {
     "type": "line_comment",
     "named": true
   },
   {
     "type": "mov",
+    "named": false
+  },
+  {
+    "type": "next",
     "named": false
   },
   {
@@ -666,6 +762,10 @@
     "named": false
   },
   {
+    "type": "prev",
+    "named": false
+  },
+  {
     "type": "public",
     "named": false
   },
@@ -678,7 +778,23 @@
     "named": false
   },
   {
+    "type": "putget",
+    "named": false
+  },
+  {
     "type": "rel",
+    "named": false
+  },
+  {
+    "type": "right",
+    "named": false
+  },
+  {
+    "type": "rx",
+    "named": false
+  },
+  {
+    "type": "rxfifo",
     "named": false
   },
   {
@@ -704,6 +820,22 @@
   {
     "type": "string",
     "named": true
+  },
+  {
+    "type": "txfifo",
+    "named": false
+  },
+  {
+    "type": "txget",
+    "named": false
+  },
+  {
+    "type": "txput",
+    "named": false
+  },
+  {
+    "type": "txrx",
+    "named": false
   },
   {
     "type": "wait",
